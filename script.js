@@ -1,104 +1,150 @@
-/* prevent default submit */
-let submitBtn = document.querySelector('#submitBtn');
-submitBtn.addEventListener('submit', function (e) {
-    e.preventDefault();
+let form = document.querySelector('#register');
+
+form.addEventListener('submit', (evento) => {
+    evento.preventDefault();
+
+    let error = false;
+
+    let alertmsg = document.querySelector('#red-alert');
 
 
-/* inputs  */
-let error = false
 
-let validateCard = /[0-9]{13,16}/
-let validateName = /^[a-z\d\.]{5,}$/
-let validatecvc = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$ /
-let validateAmount = /^[-+]?[0-9]*[.,]?[0-9]+$/
-let validatePostalCode = /(\d{5}([\-]\d{4})?)/
-let validateMessage = /^[a-zA-Z][a-zA-Z0-9-_\.]{1,300}$/
 
-/* credit card */
-if (!validateCard.test(form.creditcard.value)){
-    form.creditcard.classlist.add("is-invalid")
-    form.creditcard.classlist.add("alert-danger")
-    error = true
-} else {
-    form.creditcard.classlist.remove("is-valid")
-    form.creditcard.classlist.remove("alert-danger")
-    form.creditcard.classlist.add("is-valid")
-}
 
-/* firstname */
-if (form.firstname.value === "" || !validateName.test(form.firstname.value)){
-    form.firstname.classlist.add("is-invalid")
-    form.firstname.classlist.add("alert.danger")
-    error = true
-} else {
-    form.firstname.classlist.remove("is-invalid")
-    form.firstname.classlist.remove("alert-danger")
-    form.firstname.classlist.add("is-valid")
-}
+    /* Card number */
+    if (form.cardnumber.value === '') {
+        form.cardnumber.classList.add('is-invalid');
+        document.querySelector('#error_cardnumber').innerHTML = "Debe Ingresar un numero de tarjeta";
+        error = true;
 
-/* Lastname */
-if (form.lastname.value === "" || !validateName.test(form.lastname.value)){
-    form.lastname.classlist.add("is-invalid")
-    form.lastname.classlist.add("alert.danger")
-    error = true
-} else {
-    form.lastname.classlist.remove("is-invalid")
-    form.lastname.classlist.remove("alert-danger")
-    form.lastname.classlist.add("is-valid")
-}
+    } else if (/[0-9]{13}/.test(form.cardnumber.value)) {
+        form.cardnumber.classList.add('is-valid');
+        document.querySelector('#error_cardnumber').innerHTML = "El numero de la tarjeta debe corresponder a una tarjeta valida";
+        error = true;
+    } else {
+        form.cardnumber.classList.remove('is-invalid');
+    }
 
-/* CVC number */
-if (!validatecvc.test(form.cvc.value)){
-    form.cvc.classlist.add("is.invalid")
-    form.cvc.classlist.add("alert-danger")
-    error = true
-} else {
-    form.cvc.classlist.remove("is-invalid")
-    form.cvc.classlist.remove("alert-danger")
-    form.cvc.classlist.add("is-valid")
-}
+    /* CVC validacion */
+    if (form.cvc.value === '') {
+        form.cvc.classList.add('is-invalid');
+        document.querySelector('#error_cvc').innerHTML = "Debe Ingresar un numero valido";
+        error = true;
 
-/* amount number */
-if (!validateamount.test(form.amount.value)){
-    form.amount.classlist.add("is.invalid")
-    form.amount.classlist.add("alert-danger")
-    error = true
-} else {
-    form.amount.classlist.remove("is-invalid")
-    form.amount.classlist.remove("alert-danger")
-    form.amount.classlist.add("is-valid")
-}
+    } else if (/[0-9]{3}/.test(form.cvc.value)) {
+        form.cvc.classList.add('is-valid');
+        document.querySelector('#error_cvc').innerHTML = "El cvc debe ser valido";
+        error = true
 
-/* City */
-if (form.city.value === "" || !validatecity.test(form.city.value)){
-    form.city.classlist.add("is-invalid")
-    form.city.classlist.add("alert.danger")
-    error = true
-} else {
-    form.city.classlist.remove("is-invalid")
-    form.city.classlist.remove("alert-danger")
-    form.city.classlist.add("is-valid")
-}
+    } else {
+        form.cvc.classList.remove('is-invalid');
+    }
 
-/* state */
-if (!validateState.test(form.State.value)){
-    form.State.classlist.add("is-invalid")
-    form.State.classlist.add("alert-danger")
-    error = true
-} else {
-    form.State.classlist.remove("is-valid")
-    form.State.classlist.remove("alert-danger")
-    form.State.classlist.add("is-valid")
-}
 
-/* Postal Code */
-if (!validatePostalCode.test(form.PostalCode.value)){
-    form.PostalCode.classlist.add("is.invalid")
-    form.PostalCode.classlist.add("alert-danger")
-    error = true
-} else {
-    form.PostalCode.classlist.remove("is-invalid")
-    form.PostalCode.classlist.remove("alert-danger")
-    form.PostalCode.classlist.add("is-valid")
-}
+    /* Amount validacion */
+    if (form.amount.value === '') {
+        form.amount.classList.add('is-invalid');
+        document.querySelector('#error_amount').innerHTML = "Debe Ingresar un amount";
+        error = true;
 
+    } else if (/[0-9]{3,8}/.test(form.amount.value)) {
+        form.amount.classList.add('is-valid');
+        document.querySelector('#error_amount').innerHTML = "El amount debe de ser correcto";
+        error = true;
+
+    } else {
+        form.amount.classList.remove('is-invalid');
+    }
+
+
+    /* firstname */
+    if (form.firstname.value === '') {
+        form.firstname.classList.add('is-invalid');
+        document.querySelector('#error_firstname').innerHTML = "Debe Ingresar un Nombre";
+        error = true;
+
+    } else if (/^[a-z\d\.]{5,12}$/.test(form.firstname.value)) {
+        form.firstname.classList.add('is-valid');
+        document.querySelector('#error_firstname').innerHTML = "El nombre solo puede contener letras";
+        error = true;
+
+    } else {
+        form.firstname.classList.remove('is-invalid');
+    }
+
+
+
+    /* lastname */
+    if (form.lastname.value === '') {
+        form.lastname.classList.add('is-invalid');
+        document.querySelector('#error_lastname').innerHTML = "Debe Ingresar un apellido";
+        error = true;
+
+    } else if (/^[a-z\d\.]{5,}$/.test(form.lastname.value)) {
+        form.lastname.classList.add('is-valid');
+        document.querySelector('#error_lastname').innerHTML = "El apellido solo puede contener letras";
+        error = true;
+
+    } else {
+        form.lastname.classList.remove('is-invalid');
+    }
+
+
+    /* city */
+    if (form.city.value === '') {
+        form.city.classList.add('is-invalid');
+        document.querySelector('#error_city').innerHTML = "Debe escoger una ciudad";
+        error = true;
+
+    } else if (/^[a-z\d\.]{5,}$/.test(form.city.value)) {
+        form.city.classList.add('is-valid');
+        document.querySelector('#error_city').innerHTML = "Debe escoger una ciudad valida";
+        error = true;
+
+    } else {
+        form.city.classList.remove('is-invalid');
+    }
+
+
+    /* State */
+    if (form.state.value === 'Pick a State') {
+        form.state.classList.add('is-invalid');
+        document.querySelector('#error_state').innerHTML = "Debe escoger un State";
+        error = true;
+
+    } else if (/^[a-z\d\.]{5,}$/.test(form.state.value)) {
+        form.state.classList.add('is-valid');
+        document.querySelector('#error_state').innerHTML = "El state debe ser valido con sus datos personales";
+        error = true;
+
+    } else {
+        form.state.classList.remove('is-invalid');
+    }
+
+
+    /* Postal code */
+    if (form.postalcode.value === '') {
+        form.postalcode.classList.add('is-invalid');
+        document.querySelector('#error_postalcode').innerHTML = "Debe Ingresar un codigo de postal";
+        error = true;
+
+    } else if (/(\d{5}([\-]\d{7})?)/.test(form.postalcode.value)) {
+        form.postalcode.classList.add('is-valid');
+        document.querySelector('#error_postalcode').innerHTML = "El codigo de postal debe ser valido";
+        error = true;
+
+    } else {
+        form.postalcode.classList.remove('is-invalid');
+    }
+
+
+    /* RED ALERT */
+    if (error) {
+        alertmsg.classList.remove('d-none');
+        alertmsg.classList.add('d-block');
+
+    } else {
+        alertmsg.classList.add('d-none');
+        alertmsg.classList.remove('d-block');
+    }
+})
